@@ -62,7 +62,6 @@ class Product(models.Model):
     featured = models.BooleanField(default=False, verbose_name='محصول ویژه')
     visits = models.IntegerField(default=0, verbose_name='تعداد مشاهده')
 
-
     objects = ProductManager()
 
     class Meta:

@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
+from os import path
 from pathlib import Path
 from django.conf import settings
 
@@ -133,9 +134,9 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-# STATICFILES_DIRS = [
-#     BASE_DIR / "assets",
-# ]
+STATICFILES_DIRS = [
+    path.join(BASE_DIR, 'assets'),
+]
 
 STATIC_ROOT = os.path.join(BASE_DIR, "statics", "static_main")
 

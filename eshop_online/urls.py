@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 
 from eshop_online import settings
-from eshop_online.views import home_page, header, footer , login_page, register_page, log_out
+from eshop_online.views import home_page, header, footer
 from eshop_products.views import ProductsList, products_categories_partial
 from eshop_contact.views import contact_us_page
 
@@ -28,9 +28,9 @@ urlpatterns = [
     path('header', header, name='header'),
     path('footer', footer, name='footer'),
     path('contact-us', contact_us_page, name='contact'),
-    path('login', login_page, name='login'),
-    path('register', register_page, name='register'),
-    path('logout', log_out, name='logout'),
+    # path('login', login_page, name='login'),
+    # path('register', register_page, name='register'),
+    # path('logout', log_out, name='logout'),
     path('account/', include('account.urls', namespace='account')),
     path('', include('eshop_products.urls', namespace='products')),
     path('', include('eshop_order.urls', namespace='order')),

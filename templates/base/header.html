@@ -7,7 +7,7 @@
 <meta name="format-detection" content="telephone=no" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <link href="image/favicon.png" rel="icon" />
-<title>مارکت شاپ - قالب HTML فروشگاهی</title>
+<title>{% block title %}{% endblock %}</title>
 <meta name="description" content="Responsive and clean html template design for any kind of ecommerce webshop">
 <!-- CSS Part Start-->
 <link rel="stylesheet" type="text/css" href="{% static 'js/bootstrap/css/bootstrap.min.css' %}" />
@@ -21,6 +21,14 @@
 <link rel="stylesheet" type="text/css" href="{% static 'css/responsive-rtl.css' %}" />
 {#<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans' type='text/css'>#}
 <!-- CSS Part End-->
+{#header for login#}
+    <!-- Web Fonts
+    ========================= -->
+
+    <!-- Stylesheet
+    ========================= -->
+{#login#}
+
 </head>
 <body>
 <div class="wrapper-wide">
@@ -41,11 +49,11 @@
           <div id="top-links" class="nav pull-right flip">
             <ul>
                 {% if request.user.is_authenticated %}
-                    <li><a href="{% url 'logout' %}">خروج</a></li>
+                    <li><a href="{% url 'account:logout' %}">خروج</a></li>
                     <li><a href="/profile">حساب کاربری</a></li>
                 {% else %}
                     <li><a href="{% url 'account:login' %}">ورود</a></li>
-                    <li><a href="{% url 'register' %}">ثبت نام</a></li>
+                    <li><a href="{% url 'account:register' %}">ثبت نام</a></li>
                 {% endif %}
 
             </ul>

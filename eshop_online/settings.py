@@ -133,11 +133,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
-
+# file haye statici ke marbut be app khasi nistand halate omumi baraye proje hastand:
 STATICFILES_DIRS = [
     path.join(BASE_DIR, 'assets'),
 ]
-
+# hameye filehaye static jam mishan to in folder(ba dasture collectstatic copy mishan)
 STATIC_ROOT = os.path.join(BASE_DIR, "statics", "static_main")
 
 

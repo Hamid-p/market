@@ -1,113 +1,100 @@
-{% extends "base/base_login.html" %}
 {% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Login V3</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->	
+	<link rel="icon" type="image/png" href="{% static 'account/images/icons/favicon.ico' %}"/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'account/vendor/bootstrap/css/bootstrap.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'account/fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'account/fonts/iconic/css/material-design-iconic-font.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'vendor/animate/animate.css' %}">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="{% static 'account/vendor/css-hamburgers/hamburgers.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'account/vendor/animsition/css/animsition.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'account/vendor/select2/select2.min.css' %}">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="{% static 'account/vendor/daterangepicker/daterangepicker.css' %}">
+<!--===============================================================================================-->
+<link rel="stylesheet" type="text/css" href="{% static 'account/css/util.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'account/css/main.css' %}">
+<!--===============================================================================================-->
+</head>
+<body>
+	
+	<div class="limiter">
+		<div class="container-login100" style="background-image: url('{% static "account/images/bg-01.jpg" %}');">
+			<div class="wrap-login100">
+				<form class="login100-form validate-form" method="post">
+                    {% csrf_token %}
+					<span class="login100-form-logo">
+						<i class="zmdi zmdi-landscape"></i>
+					</span>
 
+					<span class="login100-form-title p-b-34 p-t-27">
+						Log in
+					</span>
 
-{% block contents %}
+					<div class="wrap-input100 validate-input" data-validate = "Enter username">
+						<input class="input100" type="text" name="username" placeholder="Username">
+						<span class="focus-input100" data-placeholder="&#xf207;"></span>
+					</div>
 
-    <!-- Preloader -->
-    <div class="preloader preloader-dark">
-        <div class="lds-ellipsis">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-        </div>
-    </div>
-    <!-- Preloader End -->
+					<div class="wrap-input100 validate-input" data-validate="Enter password">
+						<input class="input100" type="password" name="password" placeholder="Password">
+						<span class="focus-input100" data-placeholder="&#xf191;"></span>
+					</div>
 
-    <div id="main-wrapper" class="oxyy-login-register">
-        <div class="hero-wrap min-vh-100">
-            <div class="hero-mask opacity-4 bg-secondary"></div>
-            {#    <div class="hero-bg hero-bg-scroll" style="background-image: url('{% static 'images/login-bg.jpg' %}');"></div>#}
-            <div class="hero-wrap min-vh-100 d-flex flex-column position-relative"
-                 style="background-image: url('{% static 'account/img/login-bg.jpg' %}'); background-size: cover; background-position: center;">
+					<div class="contact100-form-checkbox">
+						<input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me">
+						<label class="label-checkbox100" for="ckb1">
+							Remember me
+						</label>
+					</div>
 
+					<div class="container-login100-form-btn">
+						<button class="login100-form-btn">
+							Login
+						</button>
+					</div>
 
-                <div class="hero-content d-flex min-vh-100">
-                    <div class="container my-auto">
-                        <div class="row">
-                            <div class="col-md-9 col-lg-7 col-xl-5 mx-auto">
-                                <div class="hero-wrap rounded shadow-lg p-4 py-sm-5 px-sm-5 my-4">
-                                    <div class="hero-mask opacity-9 bg-dark"></div>
-                                    <div class="hero-content">
-                                        <div class="logo mb-4"><a class="d-flex justify-content-center"
-                                                                  href="{% url 'home' %}"
-                                                                  title="Oxyy"><img src="{% static 'images/logo.png' %}"
-                                                                                    alt="Oxyy"></a></div>
-                                        <form id="loginForm" class="form-dark" method="post"
-                                              action="{% url 'account:login' %}">
-                                            {% csrf_token %}
-                                            {{ form.errors }}
-                                            {{ form.non_field_errors }}
-                                            <div class="form-group icon-group">
-                                                {#                                            <input type="email" class="form-control" id="emailAddress" required#}
-                                                {#                                                   placeholder="آدرس ایمیل">#}
-                                                {{ form.username.errors }}
-                                                {{ form.username }}
-                                                <span class="icon-inside"><i class="fas fa-envelope"></i></span></div>
-                                            <div class="form-group icon-group">
-                                                {#                                            <input type="password" class="form-control" id="loginPassword" required#}
-                                                {#                                                   placeholder="رمز عبور">#}
-                                                {{ form.password.errors }}
-                                                {{ form.password }}
-                                                <span class="icon-inside"><i class="fas fa-lock"></i></span></div>
-                                            <button class="btn btn-primary btn-block shadow-none mt-4 mb-3"
-                                                    type="submit">
-                                                ورود
-                                            </button>
-                                            <div class="row text-2 mt-4">
-                                                <div class="col-sm">
-                                                    <div class="form-check custom-control custom-checkbox">
-                                                        <input id="remember-me" name="remember"
-                                                               class="custom-control-input"
-                                                               type="checkbox">
-                                                        <label class="custom-control-label text-light"
-                                                               for="remember-me">به
-                                                            خاطر سپردن</label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm text-right"><a class="btn-link text-light"
-                                                                                  href="forgot-password.html">فراموشی
-                                                    رمز
-                                                    عبور؟</a></div>
-                                            </div>
-                                        </form>
-                                        <div class="d-flex align-items-center mt-2 mb-3">
-                                            <hr class="flex-grow-1 border-dark">
-                                            <span class="mx-2 text-muted text-2">ورود با</span>
-                                            <hr class="flex-grow-1 border-dark">
-                                        </div>
-                                        <div class="d-flex  flex-column align-items-center mb-3">
-                                            <ul class="social-icons social-icons-rounded">
-                                                <li class="social-icons-facebook"><a href="#" data-toggle="tooltip"
-                                                                                     data-original-title="Log In with Facebook"><i
-                                                        class="fab fa-facebook-f"></i></a></li>
-                                                <li class="social-icons-twitter"><a href="#" data-toggle="tooltip"
-                                                                                    data-original-title="Log In with Twitter"><i
-                                                        class="fab fa-twitter"></i></a></li>
-                                                <li class="social-icons-google"><a href="#" data-toggle="tooltip"
-                                                                                   data-original-title="Log In with Google"><i
-                                                        class="fab fa-google"></i></a></li>
-                                                <li class="social-icons-linkedin"><a href="#" data-toggle="tooltip"
-                                                                                     data-original-title="Log In with Linkedin"><i
-                                                        class="fab fa-linkedin-in"></i></a></li>
-                                            </ul>
-                                        </div>
-                                        <p class="text-2 text-muted text-center mb-0">حساب ندارید؟ <a
-                                                class="btn-link text-light text-3" href="{% url 'account:register' %}">ثبت نام</a></p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Styles Switcher End -->
-        <!-- Script -->
-        <script src="{% static 'js/jquery.min.js' %}"></script>
-        <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
-        <!-- Style Switcher -->
-        <script src="{% static 'js/switcher.min.js' %}"></script>
-        <script src="{% static 'js/theme.js' %}"></script>
-{% endblock %}
+					<div class="text-center p-t-90">
+						<a class="txt1" href="#">
+							Forgot Password?
+						</a>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+
+	<div id="dropDownSelect1"></div>
+	
+<!--===============================================================================================-->
+	<script src="{% static 'account/vendor/jquery/jquery-3.2.1.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'account/vendor/animsition/js/animsition.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'account/vendor/bootstrap/js/popper.js' %}"></script>
+	<script src="{% static 'account/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'account/vendor/select2/select2.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'account/vendor/daterangepicker/moment.min.js' %}"></script>
+	<script src="{% static 'account/vendor/daterangepicker/daterangepicker.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'account/vendor/countdowntime/countdowntime.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'account/js/main.js' %}"></script>
+
+</body>
+</html>

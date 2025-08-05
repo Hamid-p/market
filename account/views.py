@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from django.views import View
 from .forms import LoginForm, RegisterForm
 from django.contrib.auth import authenticate, login, get_user_model, logout
+from django.contrib.auth.models import User
 
 # Create your views here.
 # def login_page(request):
@@ -17,6 +18,8 @@ User = get_user_model()
 class UserLogin(View):
 
     def get(self, request):
+        if request.user.is_authenticated:
+            return redirect("/")
         form = LoginForm()
         context = {
             'form': form
@@ -24,6 +27,8 @@ class UserLogin(View):
         return render(request, "account/login.html", context)
 
     def post(self, request):
+        if request.user.is_authenticated:
+            return redirect("/")
         form = LoginForm(request.POST)
         context = {
             'form': form
@@ -57,4 +62,4 @@ def register_page(request):
 
 def log_out(request):
     logout(request)
-    return redirect('account:login')
+    return redirect('/')

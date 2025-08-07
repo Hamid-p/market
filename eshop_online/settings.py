@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_render_partial',
     # my app
+    'django_cleanup.apps.CleanupConfig',
     'eshop_products',
     'eshop_tag',
     'eshop_products_category',

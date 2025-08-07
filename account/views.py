@@ -12,7 +12,7 @@ from django.contrib.auth.models import User
 #     }
 #     return render(request, 'account/login.html', context)
 
-User = get_user_model()
+
 
 
 class UserLogin(View):
@@ -44,15 +44,19 @@ class UserLogin(View):
 
         return render(request, "account/login.html", context)
 
-
+User = get_user_model()
 def register_page(request):
     register_form = RegisterForm(request.POST or None)
+    if request.user.is_authenticated:
+        return redirect("/")
     if register_form.is_valid():
         userName = register_form.cleaned_data.get('userName')
         email = register_form.cleaned_data.get('email')
         password = register_form.cleaned_data.get('password')
         new_user = User.objects.create_user(username=userName, email=email, password=password)
-        print(new_user)
+        login(request, new_user)
+        return redirect('/')
+        # print(new_user)
 
     context = {
         'register_form': register_form

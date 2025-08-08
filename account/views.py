@@ -1,9 +1,11 @@
 from django.contrib.auth import authenticate, login
-from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from .forms import LoginForm, RegisterForm
 from django.contrib.auth import authenticate, login, get_user_model, logout
 from django.contrib.auth.models import User
+
 
 # Create your views here.
 # def login_page(request):
@@ -11,7 +13,6 @@ from django.contrib.auth.models import User
 #         'msg': 'it is login page'
 #     }
 #     return render(request, 'account/login.html', context)
-
 
 
 
@@ -44,14 +45,17 @@ class UserLogin(View):
 
         return render(request, "account/login.html", context)
 
+
 User = get_user_model()
+
+
 def register_page(request):
     register_form = RegisterForm(request.POST or None)
     if request.user.is_authenticated:
         return redirect("/")
     if register_form.is_valid():
         userName = register_form.cleaned_data.get('userName')
-        email = register_form.cleaned_data.get('email')
+        email = register_form.cleaned_data.get('email') or None
         password = register_form.cleaned_data.get('password')
         new_user = User.objects.create_user(username=userName, email=email, password=password)
         login(request, new_user)
@@ -67,3 +71,13 @@ def register_page(request):
 def log_out(request):
     logout(request)
     return redirect('/')
+
+
+@login_required
+def profile(request):
+    user=request.user
+
+    context={
+        'user': user
+    }
+    return render(request, 'account/profile.html', context)

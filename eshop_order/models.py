@@ -6,7 +6,8 @@ from eshop_products.models import Product
 
 
 class Order(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='کاربر')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,
+                             verbose_name='کاربر')  # ManyToOne(article:many)
     paid = models.BooleanField(default=False, verbose_name='پرداخت شده / نشده')
     pay_date = models.DateTimeField(blank=True, null=True)
 
@@ -22,7 +23,6 @@ class Order(models.Model):
         for detail in self.orderdetail_set.all():
             amount += detail.price * detail.count
         return amount
-
 
 
 class OrderDetail(models.Model):

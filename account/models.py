@@ -4,36 +4,24 @@ from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 
 
 class UserManager(BaseUserManager):
-    def create_user(self, username, email=None,  password=None):
-        """
-        Creates and saves a User with the given email, date of
-        birth and password.
-        """
+    def create_user(self, username, email=None, password=None, **extra_fields):
         if not username:
             raise ValueError("Users must have an username")
 
         user = self.model(
             username=username,
             email=email,
+            **extra_fields
         )
 
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, username, email=None, password=None):
-        """
-        Creates and saves a superuser with the given email, date of
-        birth and password.
-        """
-        user = self.create_user(
-            username=username,
-            email=email,
-            password=password,
-        )
-        user.is_admin = True
-        user.save(using=self._db)
-        return user
+    def create_superuser(self, username, email=None, password=None, **extra_fields):
+        extra_fields.setdefault('is_admin', True)
+        extra_fields.setdefault('is_active', True)
+        return self.create_user(username, email, password, **extra_fields)
 
 
 class User(AbstractBaseUser):
@@ -44,9 +32,11 @@ class User(AbstractBaseUser):
         blank=True,
         unique=True,
     )
-    fullname=models.CharField(max_length=50, verbose_name="نام کامل")
+    fullname = models.CharField(max_length=50, verbose_name="نام کامل", null=True, blank=True)
     username = models.CharField(max_length=150, unique=True)
-    # phone=models.CharField(max_length=12, unique=True, verbose_name="شماره تلفن")
+    phone = models.CharField(max_length=12, unique=True, verbose_name="شماره تلفن", null=True, blank=True)
+    address = models.TextField(verbose_name='آدرس', null=True, blank=True)
+    image = models.ImageField(upload_to="users/images", verbose_name="عکس پروفایل", blank=True, null=True)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
 

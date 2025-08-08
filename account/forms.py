@@ -63,12 +63,13 @@ class RegisterForm(forms.Form):
         ]
     )
 
-    email = forms.EmailField(
-        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'enter your username'}),
-        validators=[
-            validators.EmailValidator('ایمیل نامعتبر است!')
-        ]
-    )
+    email = forms.EmailField(required=False,
+                             widget=forms.TextInput(
+                                 attrs={'class': 'form-control', 'placeholder': 'enter your username'}),
+                             validators=[
+                                 validators.EmailValidator('ایمیل نامعتبر است!')
+                             ]
+                             )
 
     password = forms.CharField(
         widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'enter your passowrd'})
@@ -89,10 +90,11 @@ class RegisterForm(forms.Form):
 
     def clean_email(self):
         email = self.cleaned_data.get('email')
-        query = User.objects.filter(email=email)
+        if email:
+            query = User.objects.filter(email=email)
 
-        if query.exists():
-            raise forms.ValidationError('this email is already exist')
+            if query.exists():
+                raise forms.ValidationError('this email is already exist')
         return email
 
     def clean(self):

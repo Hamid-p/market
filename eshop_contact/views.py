@@ -3,6 +3,8 @@ from .models import ContactUs
 
 from .forms import ContactUsForm
 from eshop_settings.models import Settings
+
+
 # Create your views here.
 
 
@@ -13,7 +15,7 @@ def contact_us_page(request):
         email = contact_form.cleaned_data.get('email')
         message = contact_form.cleaned_data.get('message')
         new_contact = ContactUs.objects.create(fullName=fullName, email=email, message=message)
-        print(new_contact)
+        # print(new_contact)
 
     setting = Settings.objects.first()
     context = {

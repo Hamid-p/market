@@ -13,12 +13,11 @@
             <div class="row">
                 <!--Middle Part Start-->
                 <div class="col-sm-9" id="content">
-                    <h1 class="title">ثبت نام حساب کاربری</h1>
-                    <p>اگر قبلا حساب کاربریتان را ایجاد کرد اید جهت ورود به <a href="{% url 'account:login' %}">صفحه
+                    <h1 class="title">ویرایش حساب کاربری</h1>
                         لاگین</a> مراجعه کنید.</p>
                     <form class="form-horizontal" method="post">
                         {% csrf_token %}
-                        {{ register_form }}<br>
+                        {{ form }}<br>
                         <input type="submit" class="btn btn-primary" value="ادامه">
                     </form>
                 </div>
@@ -26,5 +25,4 @@
             </div>
         </div>
     </div>
-
 {% endblock %}

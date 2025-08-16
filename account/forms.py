@@ -42,17 +42,22 @@ class UserCreationForm(forms.ModelForm):
         return user
 
 
+# class UserChangeForm(forms.ModelForm):
+#     """A form for updating users. Includes all the fields on
+#     the user, but replaces the password field with admin's
+#     disabled password hash display field.
+#     """
+#
+#     password = ReadOnlyPasswordHashField()
+#
+#     class Meta:
+#         model = User
+#         fields = ["email", "password", "is_active", "is_admin"]
+
 class UserChangeForm(forms.ModelForm):
-    """A form for updating users. Includes all the fields on
-    the user, but replaces the password field with admin's
-    disabled password hash display field.
-    """
-
-    password = ReadOnlyPasswordHashField()
-
     class Meta:
         model = User
-        fields = ["email", "password", "is_active", "is_admin"]
+        fields = ["username", "email", "password", "fullname", "phone" ,"address" , "image"]
 
 
 class RegisterForm(forms.Form):
@@ -65,7 +70,7 @@ class RegisterForm(forms.Form):
 
     email = forms.EmailField(required=False,
                              widget=forms.TextInput(
-                                 attrs={'class': 'form-control', 'placeholder': 'enter your username'}),
+                                 attrs={'class': 'form-control', 'placeholder': 'enter your email'}),
                              validators=[
                                  validators.EmailValidator('ایمیل نامعتبر است!')
                              ]

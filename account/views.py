@@ -2,7 +2,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
-from .forms import LoginForm, RegisterForm
+from .forms import LoginForm, RegisterForm, UserChangeForm
 from django.contrib.auth import authenticate, login, get_user_model, logout
 from django.contrib.auth.models import User
 
@@ -13,7 +13,6 @@ from django.contrib.auth.models import User
 #         'msg': 'it is login page'
 #     }
 #     return render(request, 'account/login.html', context)
-
 
 
 class UserLogin(View):
@@ -31,9 +30,6 @@ class UserLogin(View):
         if request.user.is_authenticated:
             return redirect("/")
         form = LoginForm(request.POST)
-        context = {
-            'form': form
-        }
         if form.is_valid():
             cd = form.cleaned_data
             user = authenticate(username=cd['username'], password=cd['password'])
@@ -42,6 +38,10 @@ class UserLogin(View):
                 return redirect("/")
             else:
                 form.add_error("username", "invalid username")
+
+                context = {
+                    'form': form
+                }
 
         return render(request, "account/login.html", context)
 
@@ -75,9 +75,19 @@ def log_out(request):
 
 @login_required
 def profile(request):
-    user=request.user
+    user = request.user
 
-    context={
+    context = {
         'user': user
     }
     return render(request, 'account/profile.html', context)
+
+
+def user_edit(request):
+    user=request.user
+    form=UserChangeForm(instance=user)
+    if request.method=="POST":
+        form=UserChangeForm(instance=user, data=request.POST)
+        if form.is_valid():
+            form.save()
+    return render(request, "account/user-edit.html", {'form': form})

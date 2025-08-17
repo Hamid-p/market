@@ -1,10 +1,11 @@
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from .forms import LoginForm, RegisterForm, UserChangeForm
 from django.contrib.auth import authenticate, login, get_user_model, logout
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
@@ -82,12 +83,18 @@ def profile(request):
     }
     return render(request, 'account/profile.html', context)
 
-
-def user_edit(request):
-    user=request.user
-    form=UserChangeForm(instance=user)
-    if request.method=="POST":
-        form=UserChangeForm(instance=user, data=request.POST)
+@login_required
+def edit_profile(request):
+    user = request.user
+    if request.method == "POST":
+        form = UserChangeForm(request.POST, request.FILES, instance=user)
         if form.is_valid():
-            form.save()
-    return render(request, "account/user-edit.html", {'form': form})
+            user = form.save()
+            # برای اینکه بعد از تغییر پسورد، سشن کاربر باطل نشه:
+            if form.cleaned_data.get("password1"):
+                update_session_auth_hash(request, user)
+            return redirect("account:edit")
+    else:
+        form = UserChangeForm(instance=user)
+
+    return render(request, "account/edit_profile.html", {"form": form})

@@ -78,7 +78,19 @@
                     <div id="about" class="tab-pane fade in active">
                         <h3>بیوگرافی</h3>
                         <p><span><i
-                                class="fa fa-user-circle"></i><strong>نام و نام خانوادگی:</strong></span> {{ user.get_full_name }}
+                                class="fa fa-user-circle"></i><strong>نام و نام خانوادگی:</strong></span> {{ user.fullname }}
+                        </p>
+                        <p><span><i
+                        <p><span><i
+                                class="fa fa-user-circle"></i><strong>نام کاربری:</strong></span> {{ user.username }}
+                        </p>
+                        <p><span><i
+                        <p><span><i
+                                class="fa fa-user-circle"></i><strong>شماره موبایل:</strong></span> {{ user.phone }}
+                        </p>
+                        <p><span><i
+                        <p><span><i
+                                class="fa fa-user-circle"></i><strong>نام و نام خانوادگی:</strong></span> {{ user.address }}
                         </p>
                         <p><span><i
                                 class="fa fa-user-circle-o"></i><strong>نام کاربری :</strong></span> {{ user.username }}

@@ -55,9 +55,47 @@ class UserCreationForm(forms.ModelForm):
 #         fields = ["email", "password", "is_active", "is_admin"]
 
 class UserChangeForm(forms.ModelForm):
+    password1 = forms.CharField(
+        label="رمز عبور جدید",
+        widget=forms.PasswordInput(attrs={"class": "form-control"}),
+        required=False
+    )
+    password2 = forms.CharField(
+        label="تکرار رمز عبور جدید",
+        widget=forms.PasswordInput(attrs={"class": "form-control"}),
+        required=False
+    )
+
     class Meta:
         model = User
-        fields = ["username", "email", "password", "fullname", "phone" ,"address" , "image"]
+        fields = ["username", "email", "fullname", "phone", "address", "image"]
+
+        widgets = {
+            "username": forms.TextInput(attrs={"class": "form-control"}),
+            "email": forms.EmailInput(attrs={"class": "form-control"}),
+            "fullname": forms.TextInput(attrs={"class": "form-control"}),
+            "phone": forms.TextInput(attrs={"class": "form-control"}),
+            "address": forms.Textarea(attrs={"class": "form-control", "rows": 3}),
+            "image": forms.FileInput(attrs={"class": "form-control"}),
+        }
+
+    def clean(self):
+        cleaned_data = super().clean()
+        p1 = cleaned_data.get("password1")
+        p2 = cleaned_data.get("password2")
+        if p1 or p2:
+            if p1 != p2:
+                raise forms.ValidationError("رمز عبور و تکرار آن یکسان نیستند")
+        return cleaned_data
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        p1 = self.cleaned_data.get("password1")
+        if p1:
+            user.set_password(p1)  # پسورد هش میشه
+        if commit:
+            user.save()
+        return user
 
 
 class RegisterForm(forms.Form):

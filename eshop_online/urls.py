@@ -20,14 +20,15 @@ from django.urls import path, include
 from eshop_online import settings
 from eshop_online.views import home_page, header, footer
 from eshop_products.views import ProductsList, products_categories_partial
-from eshop_contact.views import contact_us_page
+# from eshop_contact.views import contact_us_page
+from eshop_contact.views import ContactusView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home_page, name='home'),
     path('header', header, name='header'),
     path('footer', footer, name='footer'),
-    path('contact-us', contact_us_page, name='contact'),
+    path('contact-us', ContactusView.as_view(), name='contact'),
     # path('login', login_page, name='login'),
     # path('register', register_page, name='register'),
     # path('logout', log_out, name='logout'),

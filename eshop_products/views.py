@@ -13,7 +13,7 @@ from eshop_order.forms import UserNewOrderForm
 
 
 class ProductsList(ListView):
-    template_name = 'products_list.html'
+    template_name = 'eshop_products/products_list.html'
     paginate_by = 6
 
     def get_queryset(self):
@@ -21,7 +21,7 @@ class ProductsList(ListView):
 
 
 class ProductsListByCategory(ListView):
-    template_name = 'products_list.html'
+    template_name = 'eshop_products/products_list.html'
     paginate_by = 6
 
     def get_queryset(self):
@@ -39,7 +39,7 @@ def products_categories_partial(request):
     context = {
         'categories': categories
     }
-    return render(request, 'categories_view_partial.html', context)
+    return render(request, 'eshop_products/categories_view_partial.html', context)
 
 
 def list_grouper(n, iterable):
@@ -72,15 +72,15 @@ def product_detail(request, *args, **kwargs):
         'new_order_form': new_order_form
     }
 
-    return render(request, 'product_detail.html', context)
+    return render(request, 'eshop_products/product_detail.html', context)
 
 
 class SearchProducts(ListView):
-    template_name = 'products_list.html'
-    paginate_by = 10
+    template_name = 'eshop_products/products_list.html'
+    paginate_by = 10 #چون در تمپلیت از page_obj(به جای object_list فک کنم) استفاده کردیم باید paginate_by را مقداردهی کنیم
 
     def get_queryset(self):
-        query = self.request.GET.get('q')
+        query = self.request.GET.get('q')#نام اینپوت در تمپلیت را q گذاشته ام
         print(query)
         if query is not None:
             return Product.objects.search_products(query)

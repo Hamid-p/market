@@ -71,7 +71,7 @@ class Product(models.Model):
     def __str__(self):
         return self.title
 
-    def get_product_detail_url(self):
+    def get_product_detail_url(self):  # برای استفاده در تمپلیت لیست محصولات و مشاهده هر محصول
         return f"/products/{self.id}/{self.title.replace(' ', '-')}"
 
 

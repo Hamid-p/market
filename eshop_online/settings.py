@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'eshop_order',
     'eshop_profile',
     'account',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [

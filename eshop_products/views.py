@@ -7,9 +7,12 @@ from eshop_products_category.models import ProductCategory
 from eshop_tag.models import Tag
 from .models import Product, ProductGallery
 from eshop_order.forms import UserNewOrderForm
-
-
-# Create your views here.
+from .serializers import ProductSerializer
+from rest_framework.request import Request
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.decorators import api_view
+from rest_framework.views import APIView
 
 
 class ProductsList(ListView):
@@ -19,6 +22,64 @@ class ProductsList(ListView):
     def get_queryset(self):
         return Product.objects.get_active_products()
 
+
+# region api
+@api_view(['GET', 'post'])
+def productlist(request: Request):
+    if request.method == 'GET':
+        products = Product.objects.all()
+        product_serializer = ProductSerializer(products, many=True)
+        return Response(product_serializer.data, status.HTTP_200_OK)
+    elif request.method == 'POST':
+        serializer = ProductSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status.HTTP_201_CREATED)
+    return Response(None, status.HTTP_400_BAD_REQUEST)
+
+
+class ManageProductApiView(APIView):
+    def get(self, request: Request):
+        products = Product.objects.all()
+        product_serializer = ProductSerializer(products, many=True)
+        return Response(product_serializer.data, status.HTTP_200_OK)
+
+    def post(self, request: Request):
+        serializer = ProductSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status.HTTP_201_CREATED)
+        else:
+            return Response(None, status.HTTP_400_BAD_REQUEST)
+
+
+class ProductDetailApiView(APIView):
+    def get_object(self, product_id: int):
+        try:
+            product = Product.objects.get(pk=product_id)
+            return product
+        except Product.DoesNotExist:
+            return Response(None, status.HTTP_404_NOT_FOUND)
+
+    def get(self, request: Request, product_id: int):
+        product = self.get_object(product_id)
+        serializer = ProductSerializer(product)
+        return Response(serializer.data, status.HTTP_200_OK)
+
+    def put(self, request: Request, product_id: int):
+        product = self.get_object(product_id)
+        serializer=ProductSerializer(product, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status.HTTP_202_ACCEPTED)
+        return Response(None, status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request: Request, product_id: int):
+        product = self.get_object(product_id)
+        product.delete()
+        return Response(None, status.HTTP_204_NO_CONTENT)
+
+# endregion
 
 class ProductsListByCategory(ListView):
     template_name = 'eshop_products/products_list.html'
@@ -77,10 +138,10 @@ def product_detail(request, *args, **kwargs):
 
 class SearchProducts(ListView):
     template_name = 'eshop_products/products_list.html'
-    paginate_by = 10 #چون در تمپلیت از page_obj(به جای object_list فک کنم) استفاده کردیم باید paginate_by را مقداردهی کنیم
+    paginate_by = 10  # چون در تمپلیت از page_obj(به جای object_list فک کنم) استفاده کردیم باید paginate_by را مقداردهی کنیم
 
     def get_queryset(self):
-        query = self.request.GET.get('q')#نام اینپوت در تمپلیت را q گذاشته ام
+        query = self.request.GET.get('q')  # نام اینپوت در تمپلیت را q گذاشته ام
         print(query)
         if query is not None:
             return Product.objects.search_products(query)

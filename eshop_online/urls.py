@@ -37,7 +37,8 @@ urlpatterns = [
     path('', include('eshop_products.urls', namespace='products')),
     path('', include('eshop_order.urls', namespace='order')),
     path('', include('eshop_profile.urls', namespace='profile')),
-    path('products_categories_partial', products_categories_partial, name='products_categories_partial')
+    path('products_categories_partial', products_categories_partial, name='products_categories_partial'),
+    path('api-auth/', include('rest_framework.urls')),
 ]
 
 

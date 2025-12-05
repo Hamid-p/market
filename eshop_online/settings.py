@@ -14,10 +14,8 @@ from os import path
 from pathlib import Path
 from django.conf import settings
 
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
@@ -29,7 +27,6 @@ SECRET_KEY = 'django-insecure-qtwo_=_h7-0et2k34^pb5ll2e)9bt16^z_gt76pq(aer=j1r%-
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -98,7 +95,6 @@ DATABASES = {
     }
 }
 
-
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
@@ -117,7 +113,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
@@ -131,7 +126,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
@@ -143,9 +137,6 @@ STATICFILES_DIRS = [
 ]
 # hameye filehaye static jam mishan to in folder(ba dasture collectstatic copy mishan)
 STATIC_ROOT = os.path.join(BASE_DIR, "statics", "static_main")
-
-
-
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "statics", "media_root")
 
@@ -160,4 +151,10 @@ CACHES = {
         "BACKEND": "django.core.cache.backends.redis.RedisCache",
         "LOCATION": "redis://127.0.0.1:6379",
     }
+}
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 2
+
 }

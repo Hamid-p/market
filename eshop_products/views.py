@@ -7,12 +7,13 @@ from eshop_products_category.models import ProductCategory
 from eshop_tag.models import Tag
 from .models import Product, ProductGallery
 from eshop_order.forms import UserNewOrderForm
-from .serializers import ProductSerializer
+from .serializers import ProductSerializer, CategoriesSerializer
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
+from rest_framework import generics, mixins, viewsets
 
 
 class ProductsList(ListView):
@@ -24,6 +25,8 @@ class ProductsList(ListView):
 
 
 # region api
+
+# region api janbe amuzeshi
 @api_view(['GET', 'post'])
 def productlist(request: Request):
     if request.method == 'GET':
@@ -68,7 +71,7 @@ class ProductDetailApiView(APIView):
 
     def put(self, request: Request, product_id: int):
         product = self.get_object(product_id)
-        serializer=ProductSerializer(product, data=request.data)
+        serializer = ProductSerializer(product, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status.HTTP_202_ACCEPTED)
@@ -78,6 +81,33 @@ class ProductDetailApiView(APIView):
         product = self.get_object(product_id)
         product.delete()
         return Response(None, status.HTTP_204_NO_CONTENT)
+
+
+# endregion
+
+class ProductGenericApiView(generics.ListCreateAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+
+
+class ProductGenericDetailApiView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+
+
+class CategoriesgenericApiView(generics.ListAPIView):
+    queryset = ProductCategory.objects.all()
+    serializer_class = CategoriesSerializer
+
+
+# region viewsets
+class ProductViewSetApiView(viewsets.ModelViewSet):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+
+
+# endregion
+
 
 # endregion
 

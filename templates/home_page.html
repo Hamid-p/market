@@ -262,10 +262,17 @@
                     <div class="owl-carousel product_carousel" style="direction: rtl !important;">
                         {% for product in most_visits_products %}
                             <div class="product-thumb clearfix">
-                                <div class="image"><a href="product.html"><img src="{{ product.image.url }}"
-                                                                               alt="تی شرت کتان مردانه"
-                                                                               title="تی شرت کتان مردانه"
-                                                                               class="img-responsive"/></a></div>
+                                <div class="image"><a href="product.html">{% if product.image %}
+                                    <img src="{{ product.image.url }}"
+                                         alt="{{ product.title }}"
+                                         title="{{ product.title }}"
+                                         class="img-responsive"/>
+                                {% else %}
+                                    <img src="{% static 'image/product/default.jpg' %}"
+                                         alt="تصویر موجود نیست"
+                                         title="تصویر موجود نیست"
+                                         class="img-responsive"/>
+                                {% endif %}</a></div>
                                 <div class="caption">
                                     <h4><a href="product.html">{{ product.title }}</a></h4>
                                     <p class="price"><span class="price-new">110000 تومان</span><span class="price-old">122000 تومان</span><span
@@ -290,10 +297,20 @@
                     <div class="owl-carousel product_carousel" style="direction: rtl !important;">
                         {% for product in latest_products %}
                             <div class="product-thumb clearfix">
-                                <div class="image"><a href="product.html"><img src="{{ product.image.url }}"
-                                                                               alt="تی شرت کتان مردانه"
-                                                                               title="تی شرت کتان مردانه"
-                                                                               class="img-responsive"/></a></div>
+                                <div class="image"><a href="product.html">{% if product.image %}
+                                    <img src="{{ product.image.url }}"
+                                         alt="{{ product.title }}"
+                                         title="{{ product.title }}"
+                                         class="img-responsive"/>
+                                {% else %}
+                                    <img src="{% static 'image/product/default.jpg' %}"
+                                         alt="{{ product.title }}"
+                                         title="{{ product.title }}"
+                                         class="img-responsive"/>
+                                {% endif %}
+
+
+                                </a></div>
                                 <div class="caption">
                                     <h4><a href="product.html">{{ product.title }}</a></h4>
                                     <p class="price"><span class="price-new">110000 تومان</span><span class="price-old">122000 تومان</span><span
